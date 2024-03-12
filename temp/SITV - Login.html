@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://cps.sitv.com.vn/Account/Login -->
+<html class="dxChrome dxWindowsPlatform dxWebKitFamily dxBrowserVersion-120"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style></style><script>(function(){function hookGeo() {
+  //<![CDATA[
+  const WAIT_TIME = 100;
+  const hookedObj = {
+    getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+    watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+    fakeGeo: true,
+    genLat: 38.883333,
+    genLon: -77.000
+  };
+
+  function waitGetCurrentPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        hookedObj.tmp_successCallback({
+          coords: {
+            latitude: hookedObj.genLat,
+            longitude: hookedObj.genLon,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: new Date().getTime(),
+        });
+      } else {
+        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+      }
+    } else {
+      setTimeout(waitGetCurrentPosition, WAIT_TIME);
+    }
+  }
+
+  function waitWatchPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        navigator.geolocation.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+        return Math.floor(Math.random() * 10000); // random id
+      } else {
+        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+      }
+    } else {
+      setTimeout(waitWatchPosition, WAIT_TIME);
+    }
+  }
+
+  Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp_successCallback = successCallback;
+    hookedObj.tmp_errorCallback = errorCallback;
+    hookedObj.tmp_options = options;
+    waitGetCurrentPosition();
+  };
+  Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp2_successCallback = successCallback;
+    hookedObj.tmp2_errorCallback = errorCallback;
+    hookedObj.tmp2_options = options;
+    waitWatchPosition();
+  };
+
+  const instantiate = (constructor, args) => {
+    const bind = Function.bind;
+    const unbind = bind.bind(bind);
+    return new (unbind(constructor, null).apply(null, args));
+  }
+
+  Blob = function (_Blob) {
+    function secureBlob(...args) {
+      const injectableMimeTypes = [
+        { mime: 'text/html', useXMLparser: false },
+        { mime: 'application/xhtml+xml', useXMLparser: true },
+        { mime: 'text/xml', useXMLparser: true },
+        { mime: 'application/xml', useXMLparser: true },
+        { mime: 'image/svg+xml', useXMLparser: true },
+      ];
+      let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+      if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+        if (mimeTypeIndex >= 0) {
+          let mimeType = injectableMimeTypes[mimeTypeIndex];
+          let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+    
+          let parser = new DOMParser();
+          let xmlDoc;
+          if (mimeType.useXMLparser === true) {
+            xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+          } else {
+            xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+          }
+
+          if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+            xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+    
+            if (mimeType.useXMLparser === true) {
+              args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+            } else {
+              args[0][0] = xmlDoc.documentElement.outerHTML;
+            }
+          }
+        }
+      }
+
+      return instantiate(_Blob, args); // arguments?
+    }
+
+    // Copy props and methods
+    let propNames = Object.getOwnPropertyNames(_Blob);
+    for (let i = 0; i < propNames.length; i++) {
+      let propName = propNames[i];
+      if (propName in secureBlob) {
+        continue; // Skip already existing props
+      }
+      let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+      Object.defineProperty(secureBlob, propName, desc);
+    }
+
+    secureBlob.prototype = _Blob.prototype;
+    return secureBlob;
+  }(Blob);
+
+  // https://developer.chrome.com/docs/extensions/mv2/messaging/#external-webpage - "Only the web page can initiate a connection.", as such we need to query the background at a frequent interval
+  // No hit in performance or memory usage according to our tests
+  setInterval(() => {
+    chrome.runtime.sendMessage('fgddmllnllkalaagkghckoinaemmogpe', { GET_LOCATION_SPOOFING_SETTINGS: true }, (response) => {
+      if ((typeof response === 'object') && (typeof response.coords === 'object')) {
+        hookedObj.genLat = response.coords.lat;
+        hookedObj.genLon = response.coords.lon;
+        hookedObj.fakeGeo = response.fakeIt;
+      }
+    });
+  }, 500);
+  //]]>
+}hookGeo();})()</script>
+    <title>SITV - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <link rel="stylesheet" href="./SITV - Login_files/font-awesome.css">
+    <link rel="stylesheet" href="./SITV - Login_files/style_login.css" type="text/css" media="all">
+    <link href="./SITV - Login_files/Site.css" rel="stylesheet">
+    <script src="./SITV - Login_files/jquery-3.6.0.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./SITV - Login_files/DXR.axd">
+    <script id="dxis_1288408413" src="./SITV - Login_files/DXR(1).axd" type="text/javascript"></script>
+<style></style></head>
+<body data-new-gr-c-s-check-loaded="14.1156.0" data-gr-ext-installed="">
+    <div class="modal">
+        <form class="modal-content animate" action="https://cps.sitv.com.vn/Account/Login" method="post">
+            <div class="container" style="background-color:#f1f1f1; text-align:center">Saigon International Terminals Vietnam</div>
+
+            
+
+            <div class="container">
+                <label for="uname"><b>Tài khoản</b></label>
+                <input type="text" name="Username" required="" style="text-transform:uppercase">
+
+                <label for="psw"><b>Mật khẩu</b></label>
+                <input autocomplete="off" type="password" name="Password" required="">
+
+                <div>
+                    <b style="font-size: 12px">Vui lòng nhập các ký tự vào ô phía dưới :</b>
+                    <table id="Captcha_LP" class="dxcaLoadingPanel" style="left:0px;top:0px;z-index:30000;display:none;">
+	<tbody><tr>
+		<td class="dx" style="padding-right:0px;"><img class="dxlp-loadingImage dxlp-imgPosLeft" src="./SITV - Login_files/DXR(2).axd" alt="" style="vertical-align:middle;"></td><td class="dx" style="padding-left:0px;"><span id="Captcha_TL">Loading…</span></td>
+	</tr>
+</tbody></table><div class="dxcaControl" id="Captcha" style="width:100%;">
+	<table>
+		<tbody><tr>
+			<td><div id="Captcha_IMGD" class="dxca-imageDiv" style="background-color:#EEEEEE;border-color:#A8A8A8;border-width:2px;border-style:solid;width:200px;line-height:0px;font-size:0px;">
+				<img id="Captcha_IMG" src="./SITV - Login_files/DXB.axd" alt="Captcha image" style="height:80px;width:200px;">
+			</div></td>
+		</tr><tr>
+			<td class="dxcaRefreshButtonCell" style="padding-top:3px;padding-bottom:4px;"><a class="dxcaRefreshButton" id="Captcha_RB" href="javascript:;"><img id="Captcha_RIMG" class="dx-vam dxEditors_caRefresh" src="./SITV - Login_files/DXR(2).axd" alt="Show another code" style="margin-right:4px;"><span id="Captcha_RTS" class="dxcaRefreshButtonText" style="vertical-align:middle;">Show another code</span></a></td>
+		</tr><tr>
+			<td class="dxcaTextBoxCellNoIndent" style="padding-top:3px;padding-bottom:4px;"><label class="dxcaTextBoxLabel" for="Captcha_TB_I">Type the code shown:</label><table id="Captcha_TB_ET" class="dxeValidStEditorTable dxeRoot" style="font-size:11pt;font-weight:normal;">
+				<tbody><tr>
+					<td id="Captcha_TB_CC" class="dxeErrorFrame dxeErrorFrameSys dxeNoBorderBottom dxeControlsCell" style="font-size:11pt;font-weight:normal;"><table class="dxeTextBoxSys dxeTextBox dxeTextBoxDefaultWidthSys" id="Captcha_TB" style="font-size:11pt;font-weight:normal;width:268px;">
+						<tbody><tr>
+							<td class="dxic" style="width:100%;"><input class="dxeEditArea dxeEditAreaSys" id="Captcha_TB_I" name="Captcha$TB" onfocus="ASPx.EGotFocus(&#39;Captcha_TB&#39;)" onblur="ASPx.ELostFocus(&#39;Captcha_TB&#39;)" onchange="ASPx.EValueChanged(&#39;Captcha_TB&#39;)" type="text" autocomplete="off"></td>
+						</tr>
+					</tbody></table></td>
+				</tr><tr>
+					<td id="Captcha_TB_EC" class="dxeErrorCell dxeErrorFrame dxeErrorFrameSys dxeErrorCellSys dxeNoBorderTop" style="font-size:11pt;font-weight:normal;visibility:hidden;"><table style="width:100%;">
+						<tbody><tr>
+							<td><img id="Captcha_TB_EI" class="dxEditors_edtError" src="./SITV - Login_files/DXR(2).axd" alt=""></td><td id="Captcha_TB_ETC" style="font-size:11pt;font-weight:normal;width:100%;white-space:nowrap;">The submitted code is incorrect</td>
+						</tr>
+					</tbody></table></td>
+				</tr>
+			</tbody></table><script id="dxss_1350778848" type="text/javascript" data-executed="true">
+<!--
+ASPx.createControl(ASPxClientTextBox,'Captcha_TB','',{'uniqueID':'Captcha$TB','customValidationEnabled':true,'isValid':true,'errorText':'The submitted code is incorrect','validationPatterns':[new ASPx.RequiredFieldValidationPattern('The code is incorrect!')],'validateOnLeave':false,'isErrorFrameRequired':true,'errorImageIsAssigned':true,'errorCellPosition':'Bottom','autoCompleteAttribute':{'name':'autocomplete','value':'off'},'isCaptchaTextBox':true},null,null,{'decorationStyles':[{'key':'I','className':'dxeInvalid','cssText':''},{'key':'F','className':'dxeFocused','cssText':''}]});
+
+//-->
+</script></td>
+		</tr>
+	</tbody></table>
+</div><script id="dxss_2131213305" type="text/javascript" data-executed="true">
+<!--
+ASPx.AddHoverItems('Captcha',[[['dxcaRefreshButtonHover'],[''],['RB']]]);
+ASPx.createControl(MVCxClientCaptcha,'Captcha','',{'callBack':function(arg) { ; },'callbackUrl':'/Account/CaptchaPartial'});
+
+//-->
+</script>
+                </div>
+
+
+                <input class="button_login" type="submit" value="Đăng Nhập">
+
+                <p style="text-align:left; font-size:12px">
+                    © SITV - Saigon International Terminals Vietnam <br>
+                    <strong style="color:red; font-size:15px">PROD</strong>&nbsp;
+                    <strong style="color:blue">version 1.0.0.0</strong>
+                </p>
+
+                <div class="lang-padding1">
+                            <img src="./SITV - Login_files/english_icon.png">
+                            <br>
+<a href="https://cps.sitv.com.vn/Language/Change?languageAbbrevation=en">English</a>
+                </div>
+            </div>
+        <input type="hidden" name="DXScript" value="1_10,1_62,1_11,1_12,1_13,1_14,1_15,1_19,1_64,1_47,1_16,1_8,17_0,17_7,1_26,1_38,1_30,17_35,1_22,1_54,17_34,1_40,1_53,1_52,17_33,1_257,1_258,1_23,1_32,1_45,1_287,1_285,1_314,1_46,1_51,17_6,1_50,17_14,1_20,1_21,1_39,1_33,1_18,1_298,1_299,1_286,1_292,1_290,1_293,1_294,1_291,1_295,1_288,1_296,1_297,1_301,1_310,1_312,1_313,1_300,1_305,1_306,1_307,1_289,1_302,1_303,1_304,1_308,1_309,1_311,17_47,17_2,1_58,1_56,17_37,1_55,17_38,1_57,17_39,17_40,1_59,17_3,1_48,17_8,17_9,1_34,17_10,1_61,17_11,1_49,1_37,17_42,1_42,17_12,17_13,1_65,1_259,1_256,17_23,1_279,17_24,1_268,17_17,1_277,17_19,1_262,1_264,1_272,1_273,1_274,1_278,1_260,1_267,17_16,17_21,1_266,17_18,1_60,1_269,1_263,17_15,1_271,1_265,17_41,1_276,1_270,17_20"><input type="hidden" name="DXCss" value="../Fonts/font-awesome/css/font-awesome.css,../Content/style_login.css,../Content/Site.css,1_72,1_66,1_67,1_68,1_71,1_284,1_281,1_283,1_280,1_327,1_326,1_118"><input type="hidden" name="DXMVCEditorsValues" value="{&quot;Captcha_TB&quot;:null}"></form>
+    </div>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

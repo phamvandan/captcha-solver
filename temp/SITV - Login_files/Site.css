@@ -1,0 +1,416 @@
+﻿/*body {
+}*/
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    color: #000000;
+    background: #F8F8F8;
+}
+
+.img-logo {
+    margin-top: -14px;
+}
+
+.menu-background {
+    background-color: #F8F8F8;
+    position: relative;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 3px 0px 3px 15px;
+    border-radius: 0;
+    border-color: #F8F8F8;
+}
+
+.jumbotron-modify {
+    padding: 15px 10px 10px 10px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: ghostwhite;
+    background-size: cover;
+    border-radius: 6px;
+    border-style: double;
+    border-color: darkkhaki;
+}
+
+#nav-color-left li a {
+    color: #003771;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#nav-color-left li a:hover,
+#nav-color-left li a:focus {
+    color: khaki;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#nav-color-right li a {
+    color: #003771;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+#nav-color-right li a:hover,
+#nav-color-right li a:focus {
+    color: khaki;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.left-column {
+    border-radius: 6px;
+    border: 1px solid;
+    padding: 12px 10px 10px 20px; /* top - right - bottom - left */
+    margin: 5px 0px 0px 0px; /* top - right - bottom - left */
+    text-align: left;
+    min-height: 54px;
+    font-size: 13px;
+    background-color: aliceblue;
+}
+
+.right-column {
+    border-radius: 6px;
+    border: 1px solid;
+    padding: 12px 10px 10px 10px; /* top - right - bottom - left */
+    margin: 5px 0px 0px 0px; /* top - right - bottom - left */
+    text-align: left;
+    min-height: 54px;
+    font-size: 13px;
+    background-color: linen;
+}
+
+    .right-column:hover,
+    .right-column:focus {
+        border-radius: 6px;
+        border: 1px solid;
+        padding: 12px 10px 10px 10px; /* top - right - bottom - left */
+        margin: 5px 0px 0px 0px; /* top - right - bottom - left */
+        text-align: left;
+        min-height: 54px;
+        font-size: 13px;
+        background-color: aliceblue;
+    }
+
+.button-next {
+    /*height: 50px;*/
+    width: 120px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #000000;
+    padding: 12px 10px 10px 33px; /* top - right - bottom - left */
+    margin: 5px 10px 0px 0px; /* top - right - bottom - left */
+    border-radius: 6px;
+    border: 1px solid;
+    background-image: url(../Images/icon_next_48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+}
+
+    .button-next:hover, 
+    .button-next:focus {
+        /*height: 50px;*/
+        width: 120px;
+        font-size: 13px;
+        font-weight: bold;
+        color: #000000;
+        padding: 12px 10px 10px 33px; /* top - right - bottom - left */
+        margin: 5px 10px 0px 0px; /* top - right - bottom - left */
+        border-radius: 6px;
+        border: 1px solid;
+        background-image: url(../Images/icon_next_48.png);
+        background-repeat: no-repeat;
+        background-size: 30px;
+        background-position: left;
+    }
+
+.button-back {
+    /*height: 50px;*/
+    width: 120px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #000000;
+    padding: 12px 10px 10px 33px; /* top - right - bottom - left */
+    margin: 5px 10px 0px 0px; /* top - right - bottom - left */
+    border-radius: 6px;
+    border: 1px solid;
+    background-image: url(../Images/icon_back_48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+}
+
+.lang-padding {
+    padding: 0px 0px 0px 0px; /* top - right - bottom - left */
+    margin: -10px 0px -20px 0px; /* top - right - bottom - left */
+    text-align: right;
+    font-family: Tahoma;
+    font-size: 13px;
+}
+
+.excel-template {
+    background-color: antiquewhite;
+    background-image: url(../Images/excel_icon_48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    margin: 5px 0px 0px 0px;
+    padding: 8px 0px 10px 33px;
+    text-align: center;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: bold;
+    width: 155px;
+}
+
+    .excel-template:hover,
+    .excel-template:focus {
+        background-color: azure;
+        background-image: url(../Images/excel_icon_48.png);
+        background-repeat: no-repeat;
+        background-size: 30px;
+        background-position: left;
+        margin: 5px 0px 0px 0px;
+        padding: 8px 0px 10px 33px;
+        text-align: center;
+        border: 1px solid;
+        font-size: 13px;
+        font-weight: bold;
+        width: 155px;
+    }
+
+.file-css {
+    width: 100%;
+    font-size: 13px;
+    padding: 13px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+.upload-excel {
+    background-color: antiquewhite;
+    background-image: url(../Images/upload_icon_48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    margin: 5px 0px 0px 0px;
+    padding: 8px 40px 10px 33px;
+    text-align: center;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: bold;
+    width: 140px;
+    color: #337AB7;
+}
+
+.upload-excel:hover,
+.upload-excel:focus {
+    background-color: azure;
+    background-image: url(../Images/upload_icon_48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    margin: 5px 0px 0px 0px;
+    padding: 8px 40px 10px 33px;
+    text-align: center;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: bold;
+    width: 140px;
+    color: #337AB7;
+}
+
+.save-data {
+    background-color: antiquewhite;
+    background-image: url(../Images/save_icon_48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    margin: 5px 0px 0px 0px;
+    padding: 8px 40px 10px 33px;
+    text-align: center;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: bold;
+    width: 80px;
+}
+
+    .save-data:hover,
+    .save-data:focus {
+        background-color: azure;
+        background-image: url(../Images/save_icon_48.png);
+        background-repeat: no-repeat;
+        background-size: 30px;
+        background-position: left;
+        margin: 5px 0px 0px 0px;
+        padding: 8px 40px 10px 33px;
+        text-align: center;
+        border: 1px solid;
+        font-size: 13px;
+        font-weight: bold;
+        width: 80px;
+    }
+
+.cancel-data {
+    background-color: antiquewhite;
+    background-image: url(../Images/cancel48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    margin: 5px 0px 0px 0px;
+    padding: 8px 40px 10px 33px;
+    text-align: center;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: bold;
+    width: 90px;
+}
+
+    .cancel-data:hover,
+    .cancel-data:focus {
+        background-color: azure;
+        background-image: url(../Images/cancel48.png);
+        background-repeat: no-repeat;
+        background-size: 30px;
+        background-position: left;
+        margin: 5px 0px 0px 0px;
+        padding: 8px 40px 10px 33px;
+        text-align: center;
+        border: 1px solid;
+        font-size: 13px;
+        font-weight: bold;
+        width: 90px;
+    }
+
+.btn-refresh {
+    background-color: antiquewhite;
+    background-image: url(../Images/icon_refresh_48.png);
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    margin: 5px 0px 0px 0px;
+    padding: 8px 40px 10px 33px;
+    text-align: center;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: bold;
+    width: 150px;
+}
+
+    .btn-refresh:hover,
+    .btn-refresh:focus {
+        background-color: azure;
+        background-image: url(../Images/icon_refresh_48.png);
+        background-repeat: no-repeat;
+        background-size: 30px;
+        background-position: left;
+        margin: 5px 0px 0px 0px;
+        padding: 8px 40px 10px 33px;
+        text-align: center;
+        border: 1px solid;
+        font-size: 13px;
+        font-weight: bold;
+        width: 150px;
+    }
+
+.hr-modify{
+    margin: 10px 0px 1px 0px;
+}
+
+.title-cargo {
+    font-weight: bold;
+    color: darkblue;
+    padding: 0px 0px 0px 15px;
+}
+
+.title-label {
+    font-weight: bold;
+    color: #003771;
+    font-size: 16px;
+}
+
+.rows-content {
+    width: 100%;
+    padding: 0px 0px 0px 20px;
+}
+
+.padding-td {
+    /*width: 11%;*/
+    text-align: left;
+    padding: 0px 10px 0px 20px;
+}
+
+.div-select-radio {
+    display: block;
+    cursor: pointer;
+}
+
+.btn-group-outer {
+    width: 100%;
+    padding-left: 15px;
+}
+
+.btn-group-inner {
+    display: inline-block;
+}
+
+.label20px {
+    font-size: 20px;
+}
+
+.error-upload {
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('../Images/error_icon.png');
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    height: 35px;
+    padding: 7px 0px 0px 33px;
+}
+
+.success-upload {
+    color: #000000;
+    background-color: darkseagreen;
+    background-image: url('../Images/success.png');
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: left;
+    height: 35px;
+    padding: 7px 0px 0px 33px;
+}
+
+.ExpiredUpload {
+    color: brown;
+    font-size: 13px;
+    font-weight: bold;
+}

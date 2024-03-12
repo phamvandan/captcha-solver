@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random String Generator</title>
+</head>
+<body>
+    <button>run</button>
+    <div id="sseOutput"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        var randomString = "1";
+        
+        var apiUrl = "http://localhost:8889/status-brute-force/" + randomString; // Example URL
+
+        function fetchData() {
+            console.log("running get");
+            const xhr = new XMLHttpRequest();
+            const sseDataElement = document.getElementById("sse-data");
+            xhr.open("GET", apiUrl, true); // true for asynchronous request
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        console.log(data);
+                        if (data !=null){
+                            sseDataElement.innerHTML = String(data);
+                        }
+                    } else {
+                        sseDataElement.innerHTML = xhr.statusText;
+                        console.error("Error fetching data:", xhr.statusText);
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // Fetch data every 3 seconds
+        setInterval(fetchData, 3000);
+
+    </script>
+</body>
+</html>
